@@ -333,6 +333,7 @@ namespace ELuna
 	template<>  inline unsigned long long  read2cpp(lua_State *L, int index) { return (unsigned long long)lua_tonumber(L, index);};
 	template<>	inline float		read2cpp(lua_State *L, int index) { return (float)lua_tonumber(L, index);};
 	template<>	inline double		read2cpp(lua_State *L, int index) { return (double)lua_tonumber(L, index);};
+	template<>	inline std::string	read2cpp(lua_State *L, int index) { std::string str; str = luaL_checkstring(L, index); return str;};
 	template<>	inline LuaString	read2cpp(lua_State *L, int index) { LuaString ls; ls.str = (char*)lua_tolstring(L, index, &ls.len); return ls;};
 	template<>	inline LuaTable	    read2cpp(lua_State *L, int index) { return LuaTable(L, index);};
 
@@ -388,6 +389,7 @@ namespace ELuna
 	template<> inline void push2lua(lua_State *L, bool ret) { lua_pushboolean(L, ret);};
 	template<> inline void push2lua(lua_State *L, long long ret) { return lua_pushnumber(L, (LUA_NUMBER)ret);};
 	template<> inline void push2lua(lua_State *L, unsigned long long ret) { return lua_pushnumber(L, (LUA_NUMBER)ret);};
+	template<> inline void push2lua(lua_State *L, std::string ret) {lua_pushstring(L, ret.c_str());};
 	template<> inline void push2lua(lua_State *L, LuaString ret) {lua_pushlstring(L, ret.str, ret.len);};
 	template<> inline void push2lua(lua_State *L, LuaTable ret) { if(ret.m_refCount) lua_pushvalue(L, ret.m_stackPos); else lua_pushnil(L);};
 
